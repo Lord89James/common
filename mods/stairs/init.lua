@@ -115,7 +115,7 @@ function stairs.register_slab(subname, recipeitem, groups, images, description, 
 				-- Remove the slab at slabpos
 				minetest.env:remove_node(slabpos)
 				-- Make a fake stack of a single item and try to place it
-				local fakestack = ItemStack(recipeitem)
+				local fakestack = ItemStack("stairs:slab_"..subname.."full")
 				pointed_thing.above = slabpos
 				fakestack = minetest.item_place(fakestack, placer, pointed_thing)
 				-- If the item was taken from the fake stack, decrement original
@@ -135,7 +135,7 @@ function stairs.register_slab(subname, recipeitem, groups, images, description, 
 					-- Remove the slab at the position of the slab
 					minetest.env:remove_node(p0)
 					-- Make a fake stack of a single item and try to place it
-					local fakestack = ItemStack(recipeitem)
+					local fakestack = ItemStack("stairs:slab_"..subname.."full")
 					pointed_thing.above = p0
 					fakestack = minetest.item_place(fakestack, placer, pointed_thing)
 					-- If the item was taken from the fake stack, decrement original
@@ -186,6 +186,20 @@ function stairs.register_slab(subname, recipeitem, groups, images, description, 
 			type = "fixed",
 			fixed = {-0.5, 0, -0.5, 0.5, 0.5, 0.5},
 		},
+	})
+
+	minetest.register_node(":stairs:slab_" ..subname.."full", {
+		drop = {
+			max_items = 2,
+			items = {
+				{ items = {"stairs:slab_"..subname} },
+				{ items = {"stairs:slab_"..subname} }
+			}
+		},
+		tiles = images,
+		is_ground_content = true,
+		groups = groups,
+		sounds = sounds,
 	})
 
 	minetest.register_craft({
